@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endo Health AI Header Generator</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #faf7f6;
+      color: #3e2e35;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #6b5960;
+      margin-bottom: 24px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: 1px solid #d8c7c3;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #a85d6f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    #status {
+      margin-top: 16px;
+      color: #7c5c65;
+      font-size: 14px;
+    }
+
+    img {
+      margin-top: 24px;
+      max-width: 100%;
+      border-radius: 16px;
+      display: block;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>AI Blog Header Generator</h1>
+    <p>Generate consistent Endo Health-style header images from a blog title.</p>
+
+    <input id="title" placeholder="Enter blog title" />
+
+    <select id="category">
+      <option value="WISSEN">Wissen & Tipps</option>
+      <option value="NEWS">News</option>
+      <option value="INTERVIEW">Interview</option>
+    </select>
+
+    <button onclick="generate()">Generate Image</button>
+
+    <div id="status"></div>
+    <img id="image" alt="Generated header will appear here" />
+  </div>
+
+  <script>
+    async function generate() {
+      const title = document.getElementById("title").value.trim();
+      const category = document.getElementById("category").value;
+      const image = document.getElementById("image");
+      const status = document.getElementById("status");
+
+      if (!title) {
+        alert("Please enter a blog title.");
+        return;
+      }
+
+      image.removeAttribute("src");
+      status.textContent = "Generating image...";
+
+      try {
+        const res = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ title, category })
+        });
+
+        const data = await res.json();
+        console.log(data);
+
+        if (!res.ok) {
+          status.textContent = "Generation failed.";
+          alert((data.error || "Image generation failed") + (data.details ? "\n\n" + data.details : ""));
+          return;
+        }
+
+        image.src = data.image;
+        status.textContent = "Image generated successfully.";
+      } catch (err) {
+        console.error(err);
+        status.textContent = "Something went wrong.";
+        alert("Something went wrong. Check browser console and server terminal.");
+      }
+    }
+  </script>
+</body>
+</html>
