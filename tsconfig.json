@@ -4,10 +4,12 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "rootDir": "./src",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "types": ["node"],
     "skipLibCheck": true,
     "verbatimModuleSyntax": false
-  }
+  },
+  "include": ["src/**/*.ts"]
 }
