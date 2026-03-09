@@ -1,10 +1,12 @@
 {
   "name": "endo-image-challenge",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI blog header image generator for Endo Health challenge",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "npx ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,11 +19,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@google/genai": "^1.44.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "fs-extra": "^11.3.4",
-    "openai": "^6.27.0",
-    "replicate": "^1.4.0"
+    "fs-extra": "^11.3.4"
   }
 }
